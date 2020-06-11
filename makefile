@@ -1,9 +1,9 @@
 #GCCPARAMS = -ffreestanding -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin
 GCCPARAMS = -ffreestanding -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -Wall
-objects = bootloader.o kernel.o
+objects = bootloader.o kernel.o io_asm.o
 
 
-%.o: %.cpp
+%.o: %.cpp,source/%.cpp
 	./i686-elf-4.9.1-Linux-x86_64/bin/i686-elf-g++ $(GCCPARAMS) -c $< -o $@ 
 
 %.o: %.asm
