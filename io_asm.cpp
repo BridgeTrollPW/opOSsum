@@ -1,23 +1,26 @@
 #include "types.h"
 
-/* Outputs a byte to the specified hardware port */
-__inline__ void outportb(dword port, byte value)
+void outb(u16int port, u8int value)
 {
-    __asm__ __volatile__("outb %%al,%%dx" ::"d"(port), "a"(value));
+    asm volatile("outb %1, %0"
+                 :
+                 : "dN"(port), "a"(value));
 }
 
-/* Outputs a word to a port */
-__inline__ void outportw(dword port, dword value)
+u8int inb(u16int port)
 {
-    __asm__ __volatile__("outw %%ax,%%dx" ::"d"(port), "a"(value));
+    u8int ret;
+    asm volatile("inb %1, %0"
+                 : "=a"(ret)
+                 : "dN"(port));
+    return ret;
 }
 
-/* gets a byte from a port */
-__inline__ byte inportb(dword port)
+u16int inw(u16int port)
 {
-    byte value;
-    __asm__ __volatile__("inb %w1,%b0"
-                         : "=a"(value)
-                         : "d"(port));
-    return value;
+    u16int ret;
+    asm volatile("inw %1, %0"
+                 : "=a"(ret)
+                 : "dN"(port));
+    return ret;
 }

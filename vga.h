@@ -46,6 +46,7 @@ public:
     void setColor(COLOR fg, COLOR bg);
     void reset();
     void update();
+    void redraw();
 
     const static char smiley = 1;
     const static char smiley_filled = 2;

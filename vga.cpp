@@ -40,6 +40,18 @@ void VGA::reset()
     }
 }
 
+void VGA::redraw()
+{
+    for (int col = 0; col < VGA_COLS; col++)
+    {
+        for (int row = 0; row < VGA_ROWS; row++)
+        {
+            const size_t index = (VGA_COLS * row) + col;
+            vga_buffer[index] = vga_buffer[index];
+        }
+    }
+}
+
 void VGA::update()
 {
     for (int col = 0; col < VGA_COLS; col++)

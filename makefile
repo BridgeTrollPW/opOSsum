@@ -1,6 +1,6 @@
 #GCCPARAMS = -ffreestanding -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin
 GCCPARAMS = -ffreestanding -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -Wall -std=c++11 -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin -I/usr/include/c++/9 -I/usr/include -I/usr/include/ -I/usr/include/bits
-objects = bootloader.o kernel.o io_asm.o vga.o
+objects = bootloader.o kernel.o io_asm.o vga.o descriptor_tables.o gdt.o
 
 
 %.o: %.cpp
