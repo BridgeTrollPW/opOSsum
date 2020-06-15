@@ -1,7 +1,6 @@
 #ifndef MEMORY_HPP
 #define MEMORY_HPP
-
-#include "types.hpp"
+#include <stddef.h>
 
 void *memset(void *s, int c, size_t len)
 {

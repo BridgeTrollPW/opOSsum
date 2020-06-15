@@ -1,3 +1,4 @@
+; nasm -felf32 source.asm -o object.o
 ; Declare constants for the multiboot header.
 MBALIGN  equ  1 << 0            ; align loaded modules on page boundaries
 MEMINFO  equ  1 << 1            ; provide memory map
@@ -37,8 +38,50 @@ stack_top:
 ; doesn't make sense to return from this function as the bootloader is gone.
 ; Declare _start as a function symbol with the given symbol size.
 section .text
-global _start:function (_start.end - _start)
-_start:
+
+
+
+global start:function (start.end - start)
+
+  jmp load_gdt
+ 
+  ;global descriptor table
+  gdt:
+ 
+  gdt_null:
+  dq 0
+ 
+  gdt_code:
+  dw 0FFFFh
+  dw 0
+ 
+  db 0
+  db 10011010b
+  db 11001111b
+  db 0
+ 
+  gdt_data:
+  dw 0FFFFh
+  dw 0
+ 
+  db 0
+  db 10010010b
+  db 11001111b
+  db 0
+ 
+  gdt_end:
+ 
+  gdt_desc:
+   dw gdt_end - gdt - 1
+   dd gdt
+ 
+  ;load gdt
+  load_gdt:
+    cli  ;disable interrupts
+    lgdt [gdt_desc]  ;load GDT
+    sti  ;enable interrupts
+
+start:
 	; The bootloader has loaded us into 32-bit protected mode on a x86
 	; machine. Interrupts are disabled. Paging is disabled. The processor
 	; state is as defined in the multiboot standard. The kernel has full
@@ -63,7 +106,8 @@ _start:
 	; yet. The GDT should be loaded here. Paging should be enabled here.
 	; C++ features such as global constructors and exceptions will require
 	; runtime support to work as well.
- 
+
+
 	; Enter the high-level kernel. The ABI requires the stack is 16-byte
 	; aligned at the time of the call instruction (which afterwards pushes
 	; the return pointer of size 4 bytes). The stack was originally 16-byte
@@ -88,3 +132,4 @@ _start:
 .hang:	hlt
 	jmp .hang
 .end:
+

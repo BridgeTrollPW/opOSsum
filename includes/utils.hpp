@@ -1,7 +1,7 @@
 #ifndef UTILS_HPP
 #define UTILS_HPP
 
-#include "types.hpp"
+#include <stddef.h>
 
 void swap(int i, int j)
 {

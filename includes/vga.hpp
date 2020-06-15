@@ -1,7 +1,7 @@
 #ifndef VGA_HPP
 #define VGA_HPP
 
-#include "types.hpp"
+#include <stdint.h>
 
 enum COLOR
 {
