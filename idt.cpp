@@ -1,5 +1,38 @@
 #include "idt.hpp"
-IO io;
+#include "vga.hpp"
+
+
+#define PIC1_PORT_A 0x20
+#define PIC2_PORT_A 0xA0
+
+/* The PIC interrupts have been remapped */
+#define PIC1_START_INTERRUPT 0x20
+#define PIC2_START_INTERRUPT 0x28
+#define PIC2_END_INTERRUPT PIC2_START_INTERRUPT + 7
+
+#define PIC_ACK 0x20
+
+/** pic_acknowledge:
+     *  Acknowledges an interrupt from either PIC 1 or PIC 2.
+     *
+     *  @param num The number of the interrupt
+     */
+void pic_acknowledge(unsigned int interrupt)
+{
+    if (interrupt < PIC1_START_INTERRUPT || interrupt > PIC2_END_INTERRUPT)
+    {
+        return;
+    }
+
+    if (interrupt < PIC2_START_INTERRUPT)
+    {
+        outb(PIC1_PORT_A, PIC_ACK);
+    }
+    else
+    {
+        outb(PIC2_PORT_A, PIC_ACK);
+    }
+}
 
 unsigned long irq0_address;
 unsigned long irq1_address;
@@ -44,16 +77,16 @@ IDT::IDT()
 {
     struct IDT_entry IDT[256];
 
-    io.outb(0x20, 0x11);
-    io.outb(0xA0, 0x11);
-    io.outb(0x21, 0x20);
-    io.outb(0xA1, 40);
-    io.outb(0x21, 0x04);
-    io.outb(0xA1, 0x02);
-    io.outb(0x21, 0x01);
-    io.outb(0xA1, 0x01);
-    io.outb(0x21, 0x0);
-    io.outb(0xA1, 0x0);
+    outb(0x20, 0x11);
+    outb(0xA0, 0x11);
+    outb(0x21, 0x20);
+    outb(0xA1, 40);
+    outb(0x21, 0x04);
+    outb(0xA1, 0x02);
+    outb(0x21, 0x01);
+    outb(0xA1, 0x01);
+    outb(0x21, 0x0);
+    outb(0xA1, 0x0);
 
     irq0_address = (unsigned long)irq0;
     IDT[32].offset_lowerbits = irq0_address & 0xffff;
@@ -177,88 +210,91 @@ IDT::IDT()
 
 extern "C" void irq0_handler()
 {
-    io.outb(0x20, 0x20); //EOI
+    outb(0x20, 0x20); //EOI
 }
 
 extern "C" void irq1_handler(void)
 {
-    io.outb(0x20, 0x20); //EOI
+    outb(0x20, 0x20); //EOI
+    pic_acknowledge(0x20);
 }
 
 extern "C" void irq2_handler(void)
 {
-    io.outb(0x20, 0x20); //EOI
+    outb(0x20, 0x20); //EOI
+    pic_acknowledge(0xA0);
 }
 
 extern "C" void irq3_handler(void)
 {
-    io.outb(0x20, 0x20); //EOI
+    outb(0x20, 0x20); //EOI
 }
 
 extern "C" void irq4_handler(void)
 {
-    io.outb(0x20, 0x20); //EOI
+    outb(0x20, 0x20); //EOI
+    asm volatile("hlt");
 }
 
 extern "C" void irq5_handler(void)
 {
-    io.outb(0x20, 0x20); //EOI
+    outb(0x20, 0x20); //EOI
 }
 
 extern "C" void irq6_handler(void)
 {
-    io.outb(0x20, 0x20); //EOI
+    outb(0x20, 0x20); //EOI
 }
 
 extern "C" void irq7_handler(void)
 {
-    io.outb(0x20, 0x20); //EOI
+    outb(0x20, 0x20); //EOI
 }
 
 extern "C" void irq8_handler(void)
 {
-    io.outb(0xA0, 0x20);
-    io.outb(0x20, 0x20); //EOI
+    outb(0xA0, 0x20);
+    outb(0x20, 0x20); //EOI
 }
 
 extern "C" void irq9_handler(void)
 {
-    io.outb(0xA0, 0x20);
-    io.outb(0x20, 0x20); //EOI
+    outb(0xA0, 0x20);
+    outb(0x20, 0x20); //EOI
 }
 
 extern "C" void irq10_handler(void)
 {
-    io.outb(0xA0, 0x20);
-    io.outb(0x20, 0x20); //EOI
+    outb(0xA0, 0x20);
+    outb(0x20, 0x20); //EOI
 }
 
 extern "C" void irq11_handler(void)
 {
-    io.outb(0xA0, 0x20);
-    io.outb(0x20, 0x20); //EOI
+    outb(0xA0, 0x20);
+    outb(0x20, 0x20); //EOI
 }
 
 extern "C" void irq12_handler(void)
 {
-    io.outb(0xA0, 0x20);
-    io.outb(0x20, 0x20); //EOI
+    outb(0xA0, 0x20);
+    outb(0x20, 0x20); //EOI
 }
 
 extern "C" void irq13_handler(void)
 {
-    io.outb(0xA0, 0x20);
-    io.outb(0x20, 0x20); //EOI
+    outb(0xA0, 0x20);
+    outb(0x20, 0x20); //EOI
 }
 
 extern "C" void irq14_handler(void)
 {
-    io.outb(0xA0, 0x20);
-    io.outb(0x20, 0x20); //EOI
+    outb(0xA0, 0x20);
+    outb(0x20, 0x20); //EOI
 }
 
 extern "C" void irq15_handler(void)
 {
-    io.outb(0xA0, 0x20);
-    io.outb(0x20, 0x20); //EOI
+    outb(0xA0, 0x20);
+    outb(0x20, 0x20); //EOI
 }

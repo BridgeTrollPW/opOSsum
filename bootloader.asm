@@ -63,9 +63,13 @@ gdt:
     db 0
 gdt_end:
 
-global gdt_desc:
+gdt_desc:
    dw gdt_end - gdt - 1
    dd gdt
+
+cli
+lgdt [gdt_desc]
+sti
 
 global start:function (start.end - start)
 start:

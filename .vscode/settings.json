@@ -16,6 +16,10 @@
         "tuple": "cpp",
         "type_traits": "cpp",
         "utility": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "*.tbl": "cpp",
+        "sstream": "cpp",
+        "cmath": "cpp",
+        "complex": "cpp"
     }
 }

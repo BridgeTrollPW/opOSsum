@@ -31,6 +31,14 @@ size_t strlen(char *str)
     return (s - str);
 }
 
+size_t strlen(unsigned char *str)
+{
+    register const unsigned char *s;
+    for (s = str; *s; ++s)
+        ;
+    return (s - str);
+}
+
 void reverse(char s[])
 {
     int i, j;

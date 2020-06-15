@@ -7,7 +7,7 @@
  * @param  value: 
  * @retval None
  */
-void IO::outb(uint16_t port, uint8_t value)
+void outb(uint16_t port, uint8_t value)
 {
     asm volatile("outb %1, %0"
                  :
@@ -20,7 +20,7 @@ void IO::outb(uint16_t port, uint8_t value)
  * @param  port: 
  * @retval 
  */
-uint8_t IO::inb(uint16_t port)
+uint8_t inb(uint16_t port)
 {
     uint8_t ret;
     asm volatile("inb %1, %0"
@@ -35,7 +35,7 @@ uint8_t IO::inb(uint16_t port)
  * @param  port: 
  * @retval 
  */
-uint16_t IO::inw(uint16_t port)
+uint16_t inw(uint16_t port)
 {
     uint16_t ret;
     asm volatile("inw %1, %0"

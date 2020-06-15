@@ -30,7 +30,7 @@ opossum.iso: opossum.bin
 	rm -rf iso
 
 run: opossum.iso
-	qemu-system-x86_64 -d int,pcall,unimp,guest_errors -cdrom opossum.iso
+	qemu-system-x86_64 -d int,pcall,unimp,guest_errors -kernel opossum.bin
 
 install: sonux.bin
 	sudo cp $< /boot/opossum.bin
