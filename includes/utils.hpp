@@ -1,4 +1,7 @@
-#include "types.h"
+#ifndef UTILS_HPP
+#define UTILS_HPP
+
+#include "types.hpp"
 
 void swap(int i, int j)
 {
@@ -126,7 +129,7 @@ void *malloc(size_t size)
         block = block->next;
     }
 
-   // block = (free_block *)sbrk(size);
+    // block = (free_block *)sbrk(size);
     block->size = size;
 
     return ((char *)block) + sizeof(size_t);
@@ -138,3 +141,5 @@ void free(void *ptr)
     block->next = free_block_list_head.next;
     free_block_list_head.next = block;
 }
+
+#endif

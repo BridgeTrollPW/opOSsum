@@ -1,4 +1,4 @@
-#include "types.h"
+#include "types.hpp"
 
 void outb(u16int port, u8int value)
 {

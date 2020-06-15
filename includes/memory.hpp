@@ -1,4 +1,7 @@
-#include "types.h"
+#ifndef MEMORY_HPP
+#define MEMORY_HPP
+
+#include "types.hpp"
 
 void *memset(void *s, int c, size_t len)
 {
@@ -11,3 +14,5 @@ void *memset(void *s, int c, size_t len)
     }
     return s;
 }
+
+#endif

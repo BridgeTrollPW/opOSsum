@@ -1,4 +1,4 @@
-#include "vga.h"
+#include "vga.hpp"
 
 VGA::VGA()
 {
@@ -60,7 +60,7 @@ void VGA::update()
         {
             const size_t index = (VGA_COLS * row) + col;
             char c = vga_buffer[index];
-            vga_buffer[index] = ((uint16_t)term_color << 8 | c & 0xff);
+            vga_buffer[index] = (((uint16_t)term_color << 8) | (c & 0xff));
         }
     }
 }

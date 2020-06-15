@@ -1,7 +1,7 @@
-#ifndef VGA_H
-#define VGA_H
+#ifndef VGA_HPP
+#define VGA_HPP
 
-#include "types.h"
+#include "types.hpp"
 
 enum COLOR
 {
@@ -47,20 +47,6 @@ public:
     void reset();
     void update();
     void redraw();
-
-    const static char smiley = 1;
-    const static char smiley_filled = 2;
-    const static char heart = 3;
-    const static char diamond = 4;
-    const static char dot = 7;
-    const static char dot_inverse = 8;
-    const static char music_note = 31;
-    const static char arrow_right_filled = 61;
-    const static char arrow_left_filled = 71;
-    const static char block_bottom_filled = 22;
-    const static char corner_bottom_left = 82;
-
-    const static char quater = 271;
 };
 
 #endif
