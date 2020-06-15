@@ -1,9 +1,49 @@
 #include "idt.hpp"
+IO io;
+
+unsigned long irq0_address;
+unsigned long irq1_address;
+unsigned long irq2_address;
+unsigned long irq3_address;
+unsigned long irq4_address;
+unsigned long irq5_address;
+unsigned long irq6_address;
+unsigned long irq7_address;
+unsigned long irq8_address;
+unsigned long irq9_address;
+unsigned long irq10_address;
+unsigned long irq11_address;
+unsigned long irq12_address;
+unsigned long irq13_address;
+unsigned long irq14_address;
+unsigned long irq15_address;
+unsigned long idt_address;
+unsigned long idt_ptr[2];
+
+extern "C" int load_idt(long unsigned int *ptr_idt);
+
+extern "C" int irq0();
+extern "C" void irq0_handler();
+extern "C" int irq1();
+extern "C" int irq2();
+extern "C" int irq3();
+extern "C" int irq4();
+extern "C" int irq5();
+extern "C" int irq6();
+extern "C" int irq7();
+extern "C" int irq8();
+extern "C" int irq9();
+extern "C" int irq10();
+extern "C" int irq11();
+extern "C" int irq12();
+extern "C" int irq13();
+extern "C" int irq14();
+extern "C" int irq15();
 
 IDT::IDT()
 {
     struct IDT_entry IDT[256];
-    IO io;
+
     io.outb(0x20, 0x11);
     io.outb(0xA0, 0x11);
     io.outb(0x21, 0x20);
@@ -133,4 +173,92 @@ IDT::IDT()
     idt_ptr[1] = idt_address >> 16;
 
     load_idt(idt_ptr);
+}
+
+extern "C" void irq0_handler()
+{
+    io.outb(0x20, 0x20); //EOI
+}
+
+extern "C" void irq1_handler(void)
+{
+    io.outb(0x20, 0x20); //EOI
+}
+
+extern "C" void irq2_handler(void)
+{
+    io.outb(0x20, 0x20); //EOI
+}
+
+extern "C" void irq3_handler(void)
+{
+    io.outb(0x20, 0x20); //EOI
+}
+
+extern "C" void irq4_handler(void)
+{
+    io.outb(0x20, 0x20); //EOI
+}
+
+extern "C" void irq5_handler(void)
+{
+    io.outb(0x20, 0x20); //EOI
+}
+
+extern "C" void irq6_handler(void)
+{
+    io.outb(0x20, 0x20); //EOI
+}
+
+extern "C" void irq7_handler(void)
+{
+    io.outb(0x20, 0x20); //EOI
+}
+
+extern "C" void irq8_handler(void)
+{
+    io.outb(0xA0, 0x20);
+    io.outb(0x20, 0x20); //EOI
+}
+
+extern "C" void irq9_handler(void)
+{
+    io.outb(0xA0, 0x20);
+    io.outb(0x20, 0x20); //EOI
+}
+
+extern "C" void irq10_handler(void)
+{
+    io.outb(0xA0, 0x20);
+    io.outb(0x20, 0x20); //EOI
+}
+
+extern "C" void irq11_handler(void)
+{
+    io.outb(0xA0, 0x20);
+    io.outb(0x20, 0x20); //EOI
+}
+
+extern "C" void irq12_handler(void)
+{
+    io.outb(0xA0, 0x20);
+    io.outb(0x20, 0x20); //EOI
+}
+
+extern "C" void irq13_handler(void)
+{
+    io.outb(0xA0, 0x20);
+    io.outb(0x20, 0x20); //EOI
+}
+
+extern "C" void irq14_handler(void)
+{
+    io.outb(0xA0, 0x20);
+    io.outb(0x20, 0x20); //EOI
+}
+
+extern "C" void irq15_handler(void)
+{
+    io.outb(0xA0, 0x20);
+    io.outb(0x20, 0x20); //EOI
 }

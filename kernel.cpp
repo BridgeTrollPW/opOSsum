@@ -1,5 +1,6 @@
 #include "vga.hpp"
 #include "utils.hpp"
+#include "idt.hpp"
 
 uint16_t gdt_desc;
 int x = 205;
@@ -10,6 +11,8 @@ extern "C" void kernel_main()
     __asm__ __volatile__("cli");
     __asm__ __volatile__("lgdt (gdt_desc)");
     __asm__ __volatile__("sti");
+
+    IDT idt;
 
     VGA vga;
     vga.print("bootloader asm finished\nstarting kernel\n");
