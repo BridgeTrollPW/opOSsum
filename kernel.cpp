@@ -1,19 +1,26 @@
 #include "vga.hpp"
 #include "utils.hpp"
 
+uint16_t gdt_desc;
+int x = 205;
+const char *something = (char *)&x;
 // This is our kernel's main function
 extern "C" void kernel_main()
 {
+    __asm__ __volatile__("cli");
+    __asm__ __volatile__("lgdt (gdt_desc)");
+    __asm__ __volatile__("sti");
+
     VGA vga;
     vga.print("bootloader asm finished\nstarting kernel\n");
+    vga.print("Leberwuast ist ein Spast!\n");
     vga.setColor(COLOR::LIGHT_BLUE, COLOR::WHITE);
     auto line = [&vga](COLOR color, int len) {
         vga.setColor(color, COLOR::BLACK);
         for (int i = 0; i < len; i++)
         {
-            vga.putc(char(205));
+            vga.print(something);
         }
-        vga.update();
     };
     vga.putc('\n');
     line(COLOR::RED, 80);

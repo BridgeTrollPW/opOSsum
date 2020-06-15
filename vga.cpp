@@ -87,7 +87,7 @@ void VGA::putc(char c)
     default: // Normal characters just get displayed and then increment the column
     {
         const size_t index = (VGA_COLS * row) + column; // Like before, calculate the buffer index
-        vga_buffer[index] = ((uint16_t)term_color << 8) | c;
+        vga_buffer[index] = ((uint16_t)term_color << 8) | (c & 0xff);
         column++;
         break;
     }
@@ -118,7 +118,7 @@ void VGA::print(const char *str)
 
 void VGA::setColor(COLOR fg, COLOR bg)
 {
-    setColor((fg | bg << 4));
+    setColor(fg | (bg << 4));
 }
 
 void VGA::setColor(uint8_t color)

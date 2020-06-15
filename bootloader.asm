@@ -39,48 +39,35 @@ stack_top:
 ; Declare _start as a function symbol with the given symbol size.
 section .text
 
+;jmp load_gdt
+ 
+;global descriptor table
+gdt:
+.gdt_null:
+    dq 0
+.gdt_code:
+    dw 0FFFFh
+    dw 0
+    db 0
+    db 10011010b
+    db 11001111b
+    db 0
+ 
+.gdt_data:
+    dw 0FFFFh
+    dw 0
 
+    db 0
+    db 10010010b
+    db 11001111b
+    db 0
+gdt_end:
 
-global start:function (start.end - start)
-
-  jmp load_gdt
- 
-  ;global descriptor table
-  gdt:
- 
-  gdt_null:
-  dq 0
- 
-  gdt_code:
-  dw 0FFFFh
-  dw 0
- 
-  db 0
-  db 10011010b
-  db 11001111b
-  db 0
- 
-  gdt_data:
-  dw 0FFFFh
-  dw 0
- 
-  db 0
-  db 10010010b
-  db 11001111b
-  db 0
- 
-  gdt_end:
- 
-  gdt_desc:
+global gdt_desc:
    dw gdt_end - gdt - 1
    dd gdt
- 
-  ;load gdt
-  load_gdt:
-    cli  ;disable interrupts
-    lgdt [gdt_desc]  ;load GDT
-    sti  ;enable interrupts
 
+global start:function (start.end - start)
 start:
 	; The bootloader has loaded us into 32-bit protected mode on a x86
 	; machine. Interrupts are disabled. Paging is disabled. The processor
