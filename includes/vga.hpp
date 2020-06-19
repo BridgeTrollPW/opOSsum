@@ -5,6 +5,8 @@
 #include <limits.h>
 #include <stdarg.h>
 
+#include <string.hpp>
+
 #define EOF (-1)
 
 enum COLOR
@@ -50,6 +52,7 @@ public:
     uint8_t getColor();
     int calcCursorPosition(int x, int y);
     int putchar(int ic);
+    void clear();
 
     bool print(const char *data, size_t length)
     {
@@ -60,14 +63,6 @@ public:
                 return false;
             }
         return true;
-    }
-
-    size_t strlen(const char *str)
-    {
-        size_t len = 0;
-        while (str[len])
-            len++;
-        return len;
     }
 
     int printf(const char *format, ...)

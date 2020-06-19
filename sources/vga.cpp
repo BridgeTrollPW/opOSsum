@@ -8,6 +8,19 @@ Screen::Screen()
     setPosition(0, 0);
 }
 
+void Screen::clear()
+{
+    setPosition(0, 0);
+    for (int i = 0; i < maxHeight; i++)
+    {
+        for (int j = 0; j < maxWidth; j++)
+        {
+            putchar(' ');
+        }
+    }
+    setPosition(0, 0);
+}
+
 void Screen::setColor(COLOR fg, COLOR bg)
 {
     cellAttribute = fg | bg << 4;
@@ -52,7 +65,13 @@ int Screen::getPositionY()
 
 int Screen::putchar(int ic)
 {
-    vga[position] = ((char)ic) | (cellAttribute << 8);
+    char c = (char)ic;
+    if (c == '\n')
+    {
+        setPosition(0, getPositionY() + 1);
+        return ic;
+    }
+    vga[position] = c | (cellAttribute << 8);
     setPosition(getPositionX() + 1, getPositionY());
     return ic;
 }
