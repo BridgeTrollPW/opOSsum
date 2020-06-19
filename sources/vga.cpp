@@ -71,6 +71,17 @@ int Screen::putchar(int ic)
         setPosition(0, getPositionY() + 1);
         return ic;
     }
+    else if (c == '\t')
+    {
+        setPosition(getPositionX() + 4, getPositionY());
+        return ic;
+    }
+    else if (c == '\r')
+    {
+        setPosition(getPositionX() - 1, getPositionY());
+        vga[position] = ' ' | (cellAttribute << 8);
+        return ic;
+    }
     vga[position] = c | (cellAttribute << 8);
     setPosition(getPositionX() + 1, getPositionY());
     return ic;
