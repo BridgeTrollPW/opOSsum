@@ -2,17 +2,17 @@
 GCCPARAMS = -ffreestanding -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -Wall -std=c++11 -fstrength-reduce -fomit-frame-pointer -finline-functions -Iincludes
 NASMPARAMS = -felf32
 
-objects = bootloader.o kernel.o vga.o io.o idt.o interrupts.o
+objects = sources/bootloader.o sources/kernel.o sources/io.o sources/gdt_flush.o sources/vga.o
 
 
 %.o: %.cpp
-	./i686-elf-4.9.1-Linux-x86_64/bin/i686-elf-g++ $(GCCPARAMS) -c $< -o $@ 
+	./i686-elf-5.2.0-Linux-x86_64/bin/i686-elf-g++ $(GCCPARAMS) -c $< -o $@ 
 
 %.o: %.asm
 	nasm -felf32 $< -o $@ 
 
 opossum.bin: linker.ld $(objects)
-	./i686-elf-4.9.1-Linux-x86_64/bin/i686-elf-ld -nostdlib -g -T linker.ld $(objects) -o opossum.bin 
+	./i686-elf-5.2.0-Linux-x86_64/bin/i686-elf-ld -nostdlib -g -T linker.ld $(objects) -o opossum.bin 
 
 opossum.iso: opossum.bin
 	mkdir iso
@@ -30,7 +30,7 @@ opossum.iso: opossum.bin
 	rm -rf iso
 
 run: opossum.iso
-	qemu-system-x86_64 -d int,pcall,unimp,guest_errors -kernel opossum.bin
+	qemu-system-x86_64 -d int,pcall,unimp,guest_errors -cdrom opossum.iso
 
 install: sonux.bin
 	sudo cp $< /boot/opossum.bin
